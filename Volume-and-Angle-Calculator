@@ -1,0 +1,105 @@
+//PROGRAM-ID. Cal. Program
+//AUTHOR.  Joel Perkins.
+//DATE-WRITTEN. May 4, 2008.
+
+#include<stdio.h>
+#include<stdlib.h>
+
+void sphere( float sphereR, float *sphereS, float *sphereV);
+float volCylinder( float radius, float height);
+float sumFloats( float x[30], int numFloats);
+double sin( double angle);
+
+int main()
+{
+	float sphereR;
+	float sphereS;
+	float sphereV;
+	float cylinderR = 0;
+	float cylinderH = 0;
+	float cylinderV = 0;
+	int numFloats = 0;
+	float x[30];
+	float totalSum = 0;
+	float angle;
+	float sineF;
+
+	FILE *fp;
+    int i;
+    char fileOutName[26];
+
+    char resp = 'y';
+
+
+	//outputfile prompting
+	printf("Enter output file name [25 Char Max]: ");
+	scanf( "%s", fileOutName);
+
+	fp = fopen(fileOutName, "w");
+	if (fp == NULL)
+	{
+		printf("Could not open file for output.\n");
+	    exit(0);
+    }
+
+
+		//prompting for desired data.
+		//calling functions.
+		//printing data into file.
+		//printing on screen.
+
+		//sphere calculations
+		printf("Please input desired Sphere radius: \n");
+		scanf("%f", &sphereR);
+		sphere( sphereR, &sphereS, &sphereV);
+		fprintf(fp,"Surface area of the sphere with a radius of %f is %f\n",sphereR, sphereS);
+		fprintf(fp,"Volume of the sphere with a radius of %f is %f\n", sphereR, sphereV);
+		printf("Surface area of the sphere with a radius of %f is %f\n", sphereR, sphereS);
+		printf("Volume of the sphere with a radius of %f is %f\n", sphereR, sphereV);
+
+		//cylinder calculations
+		printf("Please input desired Cylinder radius: \n");
+		scanf("%f", &cylinderR);
+		printf("Please input desired Cylinder height: \n");
+		scanf("%f", &cylinderH);
+		cylinderV = volCylinder( cylinderR, cylinderH );
+		fprintf(fp,"Volume of the cylinder with a radius and height of %f and %f is %f\n"
+			, cylinderR, cylinderH, cylinderV);
+		printf("Volume of the cylinder with a radius and height of %f and %f is %f\n"
+			, cylinderR, cylinderH, cylinderV);
+
+		//Array of floats to be added.
+		while(resp == 'y' || resp == 'Y')
+		{
+		printf("Please input number of floats in array[max 30]: \n");
+		scanf("%d", &numFloats);
+
+			for(i = 0; i < numFloats; i++)
+			{
+				printf("Please input desired float: \n");
+				scanf("%f", &x[i]);
+			}
+
+			totalSum = sumFloats( x, numFloats);
+			fprintf(fp, "The sum of the floats are: %f\n", totalSum);
+			printf("The sum of the floats are: %f\n", totalSum);
+			printf("Add some more? (y or n)\n");
+			scanf("%s", &resp);
+		}
+
+		resp = 'y';
+		//Angle to be sine.
+		while(resp == 'y' || resp == 'Y')
+		{
+			printf("Please input desiered angle to sine: ");
+			scanf("%f", &angle);
+			sineF = sin( angle );
+			fprintf(fp, "sine of the angle %f is: %f\n", angle, sineF);
+			printf("sine of the angle %f is: %f\n", angle, sineF);
+			printf("sine some more? (y or n)\n");
+			scanf("%s", &resp);
+		}
+
+	fclose(fp);
+	return 0;
+}
